@@ -30,7 +30,7 @@ git clone https://github.com/praveenathi/test-rest-service.git
 
 2. Navigate to the project directory
 
-cd <projectdirectory>
+cd projectdirectory
 
 3. Install the required dependencies
 
@@ -57,12 +57,14 @@ Open the explorer and view the reports through browser (chrome, firefox)
 
 **Folder Structure**
 
-config.properties src/test/resources/config.properties
-featurefile src/test/resources/features
-stepdefinition src/test/java/stepDefinition
-payLoads src/test/java/payLoads
-headerfiles src/test/java/headerFiles
-reports target/cucumber-html-reports
+1. config.properties src/test/resources/config.properties
+2. featurefile src/test/resources/features
+3. stepdefinition src/test/java/stepDefinition
+4. payLoads src/test/java/payLoads
+5. headerfiles src/test/java/headerFiles
+6. reports target/cucumber-html-reports
+
+
 
 
 
