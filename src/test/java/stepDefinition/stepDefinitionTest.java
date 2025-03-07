@@ -50,7 +50,7 @@ public class stepDefinitionTest extends baseStepDefinition {
 
             Map<String, String> headers = getHeaders();
 
-        String Response = sendGetRequest(fullUrl,headers, "schemas/user-schema.json");
+        String Response = sendGetRequest(fullUrl,headers, SCHEMA_PATH);
 
         System.out.println("Response Body: " +Response);
 
@@ -59,14 +59,14 @@ public class stepDefinitionTest extends baseStepDefinition {
         System.out.println("Message in Response : " +username);
 
             if (username == null || !username.equals("Devonen")) {
-                throw new AssertionError("Expected username 'Devonen', but got: " + username);
+                throw new AssertionError("Expected username 'Devonen', actual: " + username);
             }
 
         } catch (IOException e) {
             System.err.println("Error reading request body: " + e.getMessage());
             e.printStackTrace();
         } catch (Exception e) {
-            System.err.println("An error occurred during fetching user details: " + e.getMessage());
+            System.err.println("error occurred during fetching user: " + e.getMessage());
             e.printStackTrace();
         }
 

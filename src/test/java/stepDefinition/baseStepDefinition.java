@@ -17,6 +17,11 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.lessThan;
 
 public class baseStepDefinition {
+
+    public static final String SCHEMA_PATH = configReader.getProperty("schemaPath");
+    public static final int EXPECTED_STATUS_CODE = Integer.parseInt(configReader.getProperty("expectedStatuscode"));
+
+
     public static String setupEnvironment(String endpointKey) {
         try {
 
@@ -64,7 +69,8 @@ public class baseStepDefinition {
             throw e; // Rethrow the exception after logging it
         }
     }
-    public static String sendPostRequest( String url, Map<String, String> headers, String body) throws IOException {
+
+    public static String sendPostRequest(String url, Map<String, String> headers, String body) throws IOException {
 
         long responseTime = 0;
         String Response = null;
@@ -77,7 +83,7 @@ public class baseStepDefinition {
             System.out.println("POST Request Response Time: " + responseTime + "ms");
 
             Response = given().log().all().headers(headers).body(body).when().post(url).then().
-                    assertThat().statusCode(200).time(lessThan(5000L)).
+                    assertThat().statusCode(EXPECTED_STATUS_CODE).time(lessThan(5000L)).
                     extract().response().asString();
 
             int statusCode = given().log().all().headers(headers).body(body).when().post(url)
@@ -95,23 +101,23 @@ public class baseStepDefinition {
 
     }
 
-    public static String sendGetRequest( String url, Map<String, String> headers, String schemaPath) throws IOException {
+    public static String sendGetRequest(String url, Map<String, String> headers, String schemaPath) throws IOException {
         long responseTime = 0;
         String Response = null;
 
-        System.out.println("Schema Path is : " +schemaPath);
+        System.out.println("Schema Path is : " + schemaPath);
 
         try {
 
-                responseTime = given().log().all().headers(headers).
-                when().get(url).then().extract().time();
+            responseTime = given().log().all().headers(headers).
+                    when().get(url).then().extract().time();
 
             System.out.println("Get Request Response Time: " + responseTime + "ms");
 
-                Response = given().log().all().headers(headers).when().get(url).then().
-                        assertThat().statusCode(200).time(lessThan(5000L)).
-                        body(JsonSchemaValidator.matchesJsonSchema(new File("src/test/resources/schemas/user-schema.json"))).
-                        extract().response().asString();
+            Response = given().log().all().headers(headers).when().get(url).then().
+                    assertThat().statusCode(EXPECTED_STATUS_CODE).time(lessThan(5000L)).
+                    body(JsonSchemaValidator.matchesJsonSchema(new File(SCHEMA_PATH))).
+                    extract().response().asString();
 
             int statusCode = given().log().all().headers(headers).when().get(url)
                     .then().extract().statusCode();
