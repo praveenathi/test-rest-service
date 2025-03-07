@@ -1,28 +1,24 @@
-# test-rest-service
-test pet store on rest-assured framework
+# Rest-Assured Framework
 
-Project Name: Rest-Assured Framework to Create user and fetch user
+# Introduction
 
-**Description:**
+The purpose of this framework is to create a user then fetch user through API services.
+RestAssured implementation with Cucumber, Hamcrest assertions and cucumber-html-reports
 
-The purpose of this framework is to create a user through API services and 
-validate whether the user is added to the services.
-
-**Features:**
+# Features
 
 Create new users through API
 Fetch Created user details
-Validate API responses using JSON Schema
+Validate status codes and response using JSON Schema
 Supports testing in different environments (dev, qa)
 
-**Prerequisites:**
+# Prerequisites
 
-Java: Ensure you have JDK 8+ installed.
-Maven: Used for building the project.
-Git: To clone the repository.
-IntelliJ for IDE
+Developed using Intellij
+Frame work developed with Java therefore it requires JDK installed in machine
+Project is built in using Apache Maven
 
-**Setup**
+# Installation 
 
 1. Clone the repository
 
@@ -36,26 +32,19 @@ cd projectdirectory
 
 mvn clean install
 
-4. Configure environment settings
+# Run Tests in Different Environments (default to dev environment)
 
-Make sure the config.properties file is properly setup with environment configurations (baseURI, endpoints)
-
-**Run Tests in Different Environments** (default to dev environment)
-Use the terminal run below commands
+Use the terminal and run below commands
 
 mvn test -Denv=dev
 mvn test -Denv=qa
 
-Use the IntelliJ IDEA
-
-Right-click on the feature file and select Run to execute tests
-
-**Test Results**
+# Test Results
 
 Test results are displayed under the target folder as cucumber-html-reports
 Open the explorer and view the reports through browser (chrome, firefox)
 
-**Folder Structure**
+# Folder Structure
 
 1. config.properties src/test/resources/config.properties
 2. featurefile src/test/resources/features
