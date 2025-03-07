@@ -41,12 +41,14 @@ public class stepDefinitionTest extends baseStepDefinition {
     }
 
 
-    @Given("the User can fetch the created user")
-    public void the_user_can_fetch_the_created_user() {
+    @Given("the User can fetch the created user {string}")
+    public void the_user_can_fetch_the_created_user(String username) {
 
         try {
 
-        String fullUrl = baseStepDefinition.setupEnvironment("getEndPoint");
+            String endpoint = baseStepDefinition.setupEnvironment("getEndPoint");
+
+        String fullUrl = endpoint.replace("{username}",username);
 
             Map<String, String> headers = getHeaders();
 
@@ -55,11 +57,11 @@ public class stepDefinitionTest extends baseStepDefinition {
         System.out.println("Response Body: " +Response);
 
         JsonPath js = new JsonPath(Response);
-        String username = js.getString("username");
+        String getusername = js.getString("username");
         System.out.println("Message in Response : " +username);
 
-            if (username == null || !username.equals("Devonen")) {
-                throw new AssertionError("Expected username 'Devonen', actual: " + username);
+            if (getusername == null || !username.equals("William")) {
+                throw new AssertionError("Actual Username: " + username);
             }
 
         } catch (IOException e) {

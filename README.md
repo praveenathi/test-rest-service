@@ -51,7 +51,7 @@ Open the explorer and view the reports through browser (chrome, firefox)
 3. stepdefinition src/test/java/stepDefinition
 4. payLoads src/test/java/payLoads
 5. headerfiles src/test/java/headerFiles
-6. reports target/cucumber-html-reports
+6. reports target/cucumber-reports/cucumber.html
 
 
 

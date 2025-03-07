@@ -1,12 +1,22 @@
 [
   {
   "id": 103,
-  "username": "Devonen",
+  "username": "RichieRich",
   "firstName": "Chicago",
-  "lastName": "Buller",
-  "email": "chicago.bullser@gmail.com",
+  "lastName": "Miller",
+  "email": "chicago.miller@gmail.com",
   "password": "chicago",
   "phone": "+09878987565",
   "userStatus": 1
-}
+},
+  {
+    "id": 104,
+    "username": "William",
+    "firstName": "Chicago",
+    "lastName": "Wordsworth",
+    "email": "newyork.Wordsworth@gmail.com",
+    "password": "newyork",
+    "phone": "+06578987565",
+    "userStatus": 2
+  }
   ]
