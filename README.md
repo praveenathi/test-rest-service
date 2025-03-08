@@ -14,21 +14,23 @@ Supports testing in different environments (dev, qa)
 
 # Prerequisites
 
-Developed using Intellij
+Developed using Intellij 2023.3.8
 Frame work developed with Java therefore it requires JDK installed in machine
-Project is built in using Apache Maven
+Project is built in using Apache Maven for dependency management
 
 # Installation 
 
-1. Clone the repository
+1. Clone the repository to the Local drive
 
 git clone https://github.com/praveenathi/test-rest-service.git
 
 2. Navigate to the project directory
 
-cd projectdirectory
+cd <projectdirectory>
 
-3. Install the required dependencies
+3. Open the project through IntelliJ IDE
+
+4. Install the required dependencies to download
 
 mvn clean install
 
@@ -39,10 +41,12 @@ Use the terminal and run below commands
 mvn test -Denv=dev
 mvn test -Denv=qa
 
-# Test Results
+Right-click TestRunner and Run TestRunner 
+
+# Test Results & Reports
 
 Test results are displayed under the target folder as cucumber-html-reports
-Open the explorer and view the reports through browser (chrome, firefox)
+Open the explorer and view the reports through browser (chrome, firefox) or can view through built in browser
 
 # Folder Structure
 
@@ -53,6 +57,12 @@ Open the explorer and view the reports through browser (chrome, firefox)
 5. headerfiles src/test/java/headerFiles
 6. reports target/cucumber-reports/cucumber.html
 
+# Sugesstions to improve
+
+json payloads of hardcoded can be avoided and can read it from config.properties
+Single Json file can be used for valid and invalid json body
+Instead SOUT can be used log4j2
+Can develop extent reports to capture Performance time in Test summary report
 
 
 
