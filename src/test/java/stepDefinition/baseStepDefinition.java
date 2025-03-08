@@ -66,7 +66,7 @@ public class baseStepDefinition {
             return new String(Files.readAllBytes(requestBodyPath));
         } catch (IOException e) {
             System.err.println("Error reading request body file: " + e.getMessage());
-            throw e; // Rethrow the exception after logging it
+            throw e;
         }
     }
 
@@ -77,20 +77,20 @@ public class baseStepDefinition {
 
         try {
 
+            Response = given().log().all().headers(headers).body(body).when().post(url).then().
+                    assertThat().statusCode(EXPECTED_STATUS_CODE).time(lessThan(5000L)).
+                    extract().response().asString();
+
             responseTime = given().log().all().headers(headers).
                     body(body).when().post(url).then().extract().time();
 
             System.out.println("POST Request Response Time: " + responseTime + "ms");
 
-            Response = given().log().all().headers(headers).body(body).when().post(url).then().
-                    assertThat().statusCode(EXPECTED_STATUS_CODE).time(lessThan(5000L)).
-                    extract().response().asString();
-
             int statusCode = given().log().all().headers(headers).body(body).when().post(url)
                     .then().extract().statusCode();
             if (statusCode != HttpStatus.SC_OK) {
-                System.err.println("POST Request failed with HTTP Status Code: " + statusCode);
-                throw new IOException("POST Request failed with status code " + statusCode);
+                System.err.println("POSTReq failed HTTP status code: " + statusCode);
+                throw new IOException("POSTReq failed status code " + statusCode);
             }
 
             return Response;
@@ -109,15 +109,15 @@ public class baseStepDefinition {
 
         try {
 
-            responseTime = given().log().all().headers(headers).
-                    when().get(url).then().extract().time();
-
-            System.out.println("Get Request Response Time: " + responseTime + "ms");
-
             Response = given().log().all().headers(headers).when().get(url).then().
                     assertThat().statusCode(EXPECTED_STATUS_CODE).time(lessThan(5000L)).
                     body(JsonSchemaValidator.matchesJsonSchema(new File(SCHEMA_PATH))).
                     extract().response().asString();
+
+            responseTime = given().log().all().headers(headers).
+                    when().get(url).then().extract().time();
+
+            System.out.println("Get Request Response Time: " + responseTime + "ms");
 
             int statusCode = given().log().all().headers(headers).when().get(url)
                     .then().extract().statusCode();
