@@ -2,7 +2,7 @@ package stepDefinition;
 
 import io.restassured.RestAssured;
 import io.restassured.module.jsv.JsonSchemaValidator;
-import org.apache.http.HttpStatus;
+import io.restassured.response.Response;
 import utils.configReader;
 import utils.jsonReader;
 
@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.lessThan;
 public class baseStepDefinition {
 
     public static final String SCHEMA_PATH = configReader.getProperty("schemaPath");
-    public static final int EXPECTED_STATUS_CODE = Integer.parseInt(configReader.getProperty("expectedStatuscode"));
+//    public static final int EXPECTED_STATUS_CODE = Integer.parseInt(configReader.getProperty("expectedStatuscode"));
 
 
     public static String setupEnvironment(String endpointKey) {
@@ -70,66 +70,68 @@ public class baseStepDefinition {
         }
     }
 
-    public static String sendPostRequest(String url, Map<String, String> headers, String body) throws IOException {
+    public static String sendPostRequest(String url, Map<String, String> headers, String body, int expectedStatusCode) throws IOException {
 
         long responseTime = 0;
-        String Response = null;
+//        String Response = null;
 
         try {
 
-            Response = given().log().all().headers(headers).body(body).when().post(url).then().
-                    assertThat().statusCode(EXPECTED_STATUS_CODE).time(lessThan(5000L)).
-                    extract().response().asString();
+            Response response = given().log().all().headers(headers).body(body).when().post(url).then().
+                    assertThat().statusCode(expectedStatusCode).time(lessThan(5000L)).
+                    extract().response();
 
             responseTime = given().log().all().headers(headers).
                     body(body).when().post(url).then().extract().time();
 
             System.out.println("POST Request Response Time: " + responseTime + "ms");
 
-            int statusCode = given().log().all().headers(headers).body(body).when().post(url)
-                    .then().extract().statusCode();
-            if (statusCode != HttpStatus.SC_OK) {
-                System.err.println("POSTReq failed HTTP status code: " + statusCode);
-                throw new IOException("POSTReq failed status code " + statusCode);
+            int actualStatusCode = response.getStatusCode();
+
+//            int statusCode = given().log().all().headers(headers).body(body).when().post(url)
+//                    .then().extract().statusCode();
+            if (actualStatusCode != expectedStatusCode) {
+                throw new AssertionError("Expected Status Code : " +expectedStatusCode);
             }
 
-            return Response;
-        } catch (IOException e) {
+            return response.asString();
+        } catch (Exception e) {
             System.err.println("Error during POST request: " + e.getMessage());
             throw e;
         }
 
     }
 
-    public static String sendGetRequest(String url, Map<String, String> headers, String schemaPath) throws IOException {
+    public static String sendGetRequest(String url, Map<String, String> headers, String schemaPath, int expectedStatusCode) throws IOException {
         long responseTime = 0;
-        String Response = null;
+//        String Response = null;
 
-        System.out.println("Schema Path is : " + schemaPath);
+//        System.out.println("Schema Path is : " + schemaPath);
 
         try {
 
-            Response = given().log().all().headers(headers).when().get(url).then().
-                    assertThat().statusCode(EXPECTED_STATUS_CODE).time(lessThan(5000L)).
+            Response response= given().log().all().headers(headers).when().get(url).then().
+                    assertThat().statusCode(expectedStatusCode).time(lessThan(5000L)).
                     body(JsonSchemaValidator.matchesJsonSchema(new File(SCHEMA_PATH))).
-                    extract().response().asString();
+                    extract().response();
 
             responseTime = given().log().all().headers(headers).
                     when().get(url).then().extract().time();
 
             System.out.println("Get Request Response Time: " + responseTime + "ms");
 
-            int statusCode = given().log().all().headers(headers).when().get(url)
-                    .then().extract().statusCode();
+            int actualStatusCode = response.getStatusCode();
 
-            if (statusCode != HttpStatus.SC_OK) {
-                System.err.println("POST Request failed with HTTP Status Code: " + statusCode);
-                throw new IOException("POST Request failed with status code " + statusCode);
+//            int statusCode = given().log().all().headers(headers).when().get(url)
+//                    .then().extract().statusCode();
+
+            if (actualStatusCode != expectedStatusCode) {
+                throw new AssertionError("Expected Status Code : " +expectedStatusCode);
             }
             System.out.println("JSOn Schema Validation Passed");
 
-            return Response;
-        } catch (IOException e) {
+            return response.asString();
+        } catch (Exception e) {
             System.err.println("JSOn Schema Validation Failed");
             System.err.println("Error during POST request: " + e.getMessage());
             throw e;
