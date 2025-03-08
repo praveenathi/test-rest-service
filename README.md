@@ -14,36 +14,36 @@ Supports testing in different environments (dev, qa)
 
 # Prerequisites
 
-IDE : Developed using Intellij 2023.3.8
-Java : Frame work developed with Java therefore it requires JDK installed in machine
-Maven : Project is built in using Apache Maven for dependency management
+* IDE : Developed using Intellij 2023.3.8
+* Java : Frame work developed with Java therefore it requires JDK installed in machine
+* Maven : Project is built in using Apache Maven for dependency management
 
 # Installation 
 
 1. Clone the repository to the Local drive
 
-git clone https://github.com/praveenathi/test-rest-service.git
+* git clone https://github.com/praveenathi/test-rest-service.git
 
 2. Navigate to the project directory
-cd <projectdirectory>
+* cd projectdirectory
 
 3. Open the project through IntelliJ IDE
 
 4. Install the required dependencies to download
-mvn clean install
+* mvn clean install
 
 # Run Tests in Different Environments (default to dev environment)
 
-Use the terminal and run below commands
-mvn test -Denv=dev
-mvn test -Denv=qa
+Use the terminal and run below commands.
+* mvn test -Denv=dev
+* mvn test -Denv=qa
 
 Right-click TestRunner and Run TestRunner 
 
 # Test Results & Reports
 
-Test results are displayed under the target folder as cucumber-html-reports
-Open the explorer and view the reports through browser (chrome, firefox) or can view through built in browser
+* Test results are displayed under the target folder as cucumber-html-reports
+* Open the explorer and view the reports through browser (chrome, firefox) or can view through built in browser
 
 # Folder Structure
 
