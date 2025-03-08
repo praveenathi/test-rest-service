@@ -58,10 +58,10 @@ public class stepDefinitionTest extends baseStepDefinition {
 
         JsonPath js = new JsonPath(Response);
         String getusername = js.getString("username");
-        System.out.println("Message in Response : " +username);
+        System.out.println("Message in Response : " + getusername);
 
-            if (getusername == null || !username.equals("William")) {
-                throw new AssertionError("Actual Username: " + username);
+            if (getusername == null || !getusername.trim().equals(username.trim())) {
+                throw new AssertionError("Actual Username: " + getusername + "Expected"  +username);
             }
 
         } catch (IOException e) {
