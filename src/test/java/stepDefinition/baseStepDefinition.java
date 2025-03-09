@@ -18,12 +18,15 @@ import static org.hamcrest.Matchers.lessThan;
 
 public class baseStepDefinition {
 
+    //Path to JSOn Schema for validation
     public static final String SCHEMA_PATH = configReader.getProperty("schemaPath");
-//    public static final int EXPECTED_STATUS_CODE = Integer.parseInt(configReader.getProperty("expectedStatuscode"));
 
+    //ENvironment setup by reading baseURI from config.properties
 
     public static String setupEnvironment(String endpointKey) {
         try {
+
+            //default environment is dev
 
             String env = System.getProperty("env", "dev");
 
@@ -34,7 +37,12 @@ public class baseStepDefinition {
             if (endpointKey == null || endpointKey.isEmpty()) {
                 throw new IllegalArgumentException("EndpointKey is missing from config.properties");
             }
+
+            //Get endpoint from config.properties
+
             String endpoint = configReader.getProperty(endpointKey);
+
+            //combine baseURI with endpoint
 
             String fullUrl = RestAssured.baseURI + endpoint;
             System.out.println("FullURL : " + fullUrl);
@@ -45,6 +53,8 @@ public class baseStepDefinition {
         }
     }
 
+    //Read headers from header.json file
+
     public static Map<String, String> getHeaders() throws IOException {
         try {
             String headersFilePath = "src/test/java/headerFiles/headers.json";
@@ -54,6 +64,8 @@ public class baseStepDefinition {
             throw e;
         }
     }
+
+    //Read requestbody from file path
 
     public static String getRequestBody(String filepath) throws IOException {
         try {
@@ -70,10 +82,10 @@ public class baseStepDefinition {
         }
     }
 
+    //Post Requests
     public static String sendPostRequest(String url, Map<String, String> headers, String body, int expectedStatusCode) throws IOException {
 
         long responseTime = 0;
-//        String Response = null;
 
         try {
 
@@ -88,10 +100,8 @@ public class baseStepDefinition {
 
             int actualStatusCode = response.getStatusCode();
 
-//            int statusCode = given().log().all().headers(headers).body(body).when().post(url)
-//                    .then().extract().statusCode();
             if (actualStatusCode != expectedStatusCode) {
-                throw new AssertionError("Expected Status Code : " +expectedStatusCode);
+                throw new AssertionError("Expected Status Code : " + expectedStatusCode);
             }
 
             return response.asString();
@@ -102,15 +112,14 @@ public class baseStepDefinition {
 
     }
 
+    //Get Requests
+
     public static String sendGetRequest(String url, Map<String, String> headers, String schemaPath, int expectedStatusCode) throws IOException {
         long responseTime = 0;
-//        String Response = null;
-
-//        System.out.println("Schema Path is : " + schemaPath);
 
         try {
 
-            Response response= given().log().all().headers(headers).when().get(url).then().
+            Response response = given().log().all().headers(headers).when().get(url).then().
                     assertThat().statusCode(expectedStatusCode).time(lessThan(5000L)).
                     body(JsonSchemaValidator.matchesJsonSchema(new File(SCHEMA_PATH))).
                     extract().response();
@@ -122,11 +131,8 @@ public class baseStepDefinition {
 
             int actualStatusCode = response.getStatusCode();
 
-//            int statusCode = given().log().all().headers(headers).when().get(url)
-//                    .then().extract().statusCode();
-
             if (actualStatusCode != expectedStatusCode) {
-                throw new AssertionError("Expected Status Code : " +expectedStatusCode);
+                throw new AssertionError("Expected Status Code : " + expectedStatusCode);
             }
             System.out.println("JSOn Schema Validation Passed");
 

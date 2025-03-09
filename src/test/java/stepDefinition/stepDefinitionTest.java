@@ -13,14 +13,24 @@ public class stepDefinitionTest extends baseStepDefinition {
 
         try {
 
+            //get fullurl
+
             String fullUrl = baseStepDefinition.setupEnvironment("createEndPoint");
+
+            //get the request headers
 
             Map<String, String> headers = getHeaders();
 
+            //get the request body
+
             String requestBody = getRequestBody("src/test/java/payLoads/requestBody.json");
+
+            //send Post Request and capture response
 
             String Response = sendPostRequest(fullUrl, headers, requestBody, expectedStatusCode);
             System.out.println("Response of POST" + Response);
+
+            // get the message from response
 
             JsonPath js = new JsonPath(Response);
             String messageId = js.getString("message");
